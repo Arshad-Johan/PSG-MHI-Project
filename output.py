@@ -7,7 +7,7 @@ uri = f"mongodb+srv://chinnadeva46:{password()}@psg-mhi.zqbza.mongodb.net/?retry
 client = MongoClient(uri)
 db = client['sample_mflix']
 collection = db['movies']
-
+print("hi")
 try:
     client.admin.command('ping')
     print("Pinged your deployment. You successfully connected to MongoDB!")
