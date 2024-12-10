@@ -1,17 +1,20 @@
+from flask import Flask
+from pymongo import MongoClient
+from passw import password
 import pymongo
 import re
-from passw import password
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 import time
+import threading
 
-# Connect to MongoDB
 uri = f"mongodb+srv://chinnadeva46:{password()}@psg-mhi.zqbza.mongodb.net/?retryWrites=true&w=majority&appName=PSG-MHI"
-client = pymongo.MongoClient(uri)
+client = MongoClient(uri)
 db = client["MACHINESDATA"]
 collection = db["JabbalsMachine"]
 
-# Function to read and parse the text file
+app = Flask(__name__)
+
 def parse_text_file(file_path):
     with open(file_path, "r") as file:
         lines = file.readlines()
@@ -19,10 +22,8 @@ def parse_text_file(file_path):
     data_list = []
 
     for line in lines:
-        # Split values by comma, spaces, or both
         values = re.split(r'\s*,\s*|\s+', line.strip())
         
-        # Base dictionary for fixed fields
         data_dict = {
             "serial number": values[0],
             "date": values[1],
@@ -31,34 +32,27 @@ def parse_text_file(file_path):
             "tests": []
         }
 
-        # Start reading from the 4th index onwards for tests
         tests_start_index = 4
         current_test = []
         i = tests_start_index
 
         while i < len(values):
-            # Skip `N/A` values
             if values[i].upper() == "N/A":
                 i += 1
                 continue
 
-            # Check if current value is a pass/fail
             if values[i].lower() in ["pass", "fail"]:
-                # Add pass/fail test result
                 current_test.append(f"{values[i]}")
 
             else:
-                # Add non-pass/fail value to test
                 current_test.append(values[i])
 
-            # If we have a completed test that ends with pass or fail
             if len(current_test) > 1 and (current_test[-1].lower() in ["pass", "fail"]):
                 data_dict["tests"].append(" ".join(current_test))
-                current_test = []  # Reset for the next test
+                current_test = [] 
 
             i += 1
 
-        # Add any incomplete test that doesn't end with pass or fail (optional)
         if current_test:
             data_dict["tests"].append(" ".join(current_test))
 
@@ -66,7 +60,6 @@ def parse_text_file(file_path):
 
     return data_list
 
-# Function to update MongoDB with parsed data
 def update_database(file_path):
     parsed_data_list = parse_text_file(file_path)
     for parsed_data in parsed_data_list:
@@ -77,7 +70,6 @@ def update_database(file_path):
         )
     print("Documents updated successfully!")
 
-# File system event handler
 class FileChangeHandler(FileSystemEventHandler):
     def __init__(self, file_path):
         self.file_path = file_path
@@ -87,26 +79,28 @@ class FileChangeHandler(FileSystemEventHandler):
             print(f"Detected changes in {self.file_path}. Updating database...")
             update_database(self.file_path)
 
-# Monitor the file for changes
 def monitor_file(file_path):
     event_handler = FileChangeHandler(file_path)
     observer = Observer()
-    observer.schedule(event_handler, ".", recursive=False)  # Monitor the current directory
+    observer.schedule(event_handler, ".", recursive=False)  
     observer.start()
 
     print(f"Monitoring {file_path} for changes. Press Ctrl+C to stop.")
     try:
         while True:
-            time.sleep(1)  # Keep the script running
+            time.sleep(1) 
     except KeyboardInterrupt:
         observer.stop()
     observer.join()
 
-# File path to monitor
-file_path = "data.txt"
+def start_monitoring():
+    file_path = "data.txt"
+    update_database(file_path)
+    monitor_thread = threading.Thread(target=monitor_file, args=("data.txt",))
+    monitor_thread.daemon = True
+    monitor_thread.start()
 
-# Perform the initial update before starting to monitor for changes
-update_database(file_path)
+start_monitoring()
 
-# Now, monitor for changes
-monitor_file(file_path)
+if __name__ == '__main__':
+    app.run(port=5001, debug=True)
