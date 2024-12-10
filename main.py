@@ -3,6 +3,8 @@ from pymongo import MongoClient
 from passw import password
 import pymongo
 import re
+from flask_login import LoginManager
+from login import init_login, login_view, dashboard_view, logout_view
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 import time
@@ -14,6 +16,10 @@ db = client["MACHINESDATA"]
 collection = db["JabbalsMachine"]
 
 app = Flask(__name__)
+
+app.add_url_rule("/login", view_func=login_view, methods=["GET", "POST"])
+app.add_url_rule("/dashboard", view_func=dashboard_view)
+app.add_url_rule("/logout", view_func=logout_view)
 
 def parse_text_file(file_path):
     with open(file_path, "r") as file:
