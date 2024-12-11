@@ -1,25 +1,66 @@
-from flask import Flask
+from flask import Flask, render_template, redirect, url_for, request, flash
+from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from pymongo import MongoClient
 from passw import password
-import pymongo
 import re
-from flask_login import LoginManager
-from login import init_login, login_view, dashboard_view, logout_view
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 import time
 import threading
 
+# MongoDB connection setup
 uri = f"mongodb+srv://chinnadeva46:{password()}@psg-mhi.zqbza.mongodb.net/?retryWrites=true&w=majority&appName=PSG-MHI"
 client = MongoClient(uri)
 db = client["MACHINESDATA"]
 collection = db["JabbalsMachine"]
 
 app = Flask(__name__)
+app.secret_key = 'your_secret_key'  # Necessary for session management
 
-app.add_url_rule("/login", view_func=login_view, methods=["GET", "POST"])
-app.add_url_rule("/dashboard", view_func=dashboard_view)
-app.add_url_rule("/logout", view_func=logout_view)
+login_manager = LoginManager()
+login_manager.init_app(app)
+
+class User(UserMixin):
+    def __init__(self, id, username, password):
+        self.id = id
+        self.username = username
+        self.password = password
+
+# Hardcoded user (replace with database lookup for real applications)
+users = {"admin": User(id=1, username="admin", password="password123")}
+
+@login_manager.user_loader
+def load_user(user_id):
+    return users.get(user_id)
+
+@app.route("/login", methods=["GET", "POST"])
+def login_view():
+    if current_user.is_authenticated:
+        return redirect(url_for("dashboard_view"))
+    
+    if request.method == "POST":
+        username = request.form["username"]
+        password = request.form["password"]
+
+        user = users.get(username)
+        if user and user.password == password:
+            login_user(user)
+            return redirect(url_for("dashboard_view"))
+        else:
+            flash("Invalid username or password", "danger")
+    
+    return render_template("login.html")
+
+@app.route("/dashboard")
+@login_required
+def dashboard_view():
+    return render_template("dashboard.html")
+
+@app.route("/logout")
+@login_required
+def logout_view():
+    logout_user()
+    return redirect(url_for("login_view"))
 
 def parse_text_file(file_path):
     with open(file_path, "r") as file:
@@ -102,7 +143,7 @@ def monitor_file(file_path):
 def start_monitoring():
     file_path = "data.txt"
     update_database(file_path)
-    monitor_thread = threading.Thread(target=monitor_file, args=("data.txt",))
+    monitor_thread = threading.Thread(target=monitor_file, args=(file_path,))
     monitor_thread.daemon = True
     monitor_thread.start()
 
