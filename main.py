@@ -33,6 +33,10 @@ users = {"admin": User(id=1, username="admin", password="password123")}
 def load_user(user_id):
     return users.get(user_id)
 
+@app.route("/", methods=["GET"])
+def home():
+    return render_template("home.html")
+
 @app.route("/login", methods=["GET", "POST"])
 def login_view():
     if current_user.is_authenticated:
@@ -50,6 +54,21 @@ def login_view():
             flash("Invalid username or password", "danger")
     
     return render_template("login.html")
+
+@app.route("/signup", methods=["GET", "POST"])
+def signup_view():
+    if request.method == "POST":
+        username = request.form["username"]
+        password = request.form["password"]
+        
+        if username in users:
+            flash("Username already taken", "danger")
+        else:
+            users[username] = User(id=len(users)+1, username=username, password=password)
+            flash("Signup successful! Please log in.", "success")
+            return redirect(url_for("login_view"))
+    
+    return render_template("signup.html")
 
 @app.route("/dashboard")
 @login_required
