@@ -14,6 +14,7 @@ import threading
 import random
 import logging
 from itsdangerous import URLSafeTimedSerializer
+from bson import ObjectId
 
 load_dotenv()
 
@@ -45,10 +46,11 @@ class User(UserMixin):
 
 @login_manager.user_loader
 def load_user(user_id):
-    user_data = users_collection.find_one({"username": user_id})
+    user_data = users_collection.find_one({"_id": ObjectId(user_id)})
     if user_data:
-        return User(id=user_data["_id"], username=user_data["username"], password=user_data["password"])
+        return User(id=str(user_data["_id"]), username=user_data["username"], password=user_data["password"])
     return None
+
 
 @app.route("/", methods=["GET"])
 def home():
@@ -67,7 +69,8 @@ def login_view():
         if user_data and check_password_hash(user_data["password"], password):
             user = User(id=user_data["_id"], username=user_data["username"], password=user_data["password"])
             login_user(user)
-            return redirect(url_for("dashboard_view"))
+            next_page = request.args.get("next")
+            return redirect(next_page or url_for("dashboard_view"))
         else:
             flash("Invalid username or password", "danger")
     
@@ -78,16 +81,16 @@ serializer = URLSafeTimedSerializer(app.secret_key)
 @app.route("/forgot-password", methods=["GET", "POST"])
 def forgot_password():
     if request.method == "POST":
-        email = request.form["username"]
-        user_data = users_collection.find_one({"username": email})
+        username = request.form["username"]
+        user_data = users_collection.find_one({"username": username})
         
         if user_data:
             # Generate reset token
-            token = serializer.dumps(email, salt="password-reset-salt")
+            token = serializer.dumps(username, salt="password-reset-salt")
             reset_url = url_for("reset_password", token=token, _external=True)
 
             # Send the reset link via email
-            if send_reset_email(email, reset_url):
+            if send_reset_email(username, reset_url):
                 flash("A password reset link has been sent to your email.", "info")
             else:
                 flash("Failed to send reset email. Please try again.", "danger")
