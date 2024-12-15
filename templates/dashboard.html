@@ -3,10 +3,86 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='dashboard.css') }}">
     <title>Dashboard</title>
 </head>
 <body>
-    <h2>Welcome to the Dashboard!</h2>
-    <p><a href="{{ url_for('logout_view') }}">Logout</a></p>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a href="#" class="navbar-logo"></a>
+            <ul class="navbar-links">
+                <li><a href="{{ url_for('logout_view') }}">Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Machines Card -->
+        <div class="card" id="machines-card" onclick="showMotorCards()">
+            <h3>Jabbal's Machine</h3>
+            <p>Click to view all motors</p>
+        </div>
+
+        <!-- Motor Data Cards -->
+        <div class="motor-cards-container" id="motor-cards-container" style="display: none;"></div>
+        
+        <!-- Button to go back to Machines -->
+        <button id="back-button" style="display: none;" onclick="goBackToMachines()">Back to Machines</button>
+    </div>
+
+    <script>
+        // Function to fetch motor data and display the cards dynamically
+        function showMotorCards() {
+            fetch('/machines_data')
+                .then(response => response.json())
+                .then(data => {
+                    const container = document.getElementById("motor-cards-container");
+                    const backButton = document.getElementById("back-button");
+
+                    // Show the motor cards container and the back button
+                    container.style.display = "flex";
+                    backButton.style.display = "block";
+                    document.getElementById("machines-card").style.display = "none"; // Hide the machines card
+
+                    // Clear any existing cards before adding new ones
+                    container.innerHTML = '';
+
+                    // Iterate over the data and create cards for each motor
+                    data.forEach(motor => {
+                        const motorCard = document.createElement("div");
+                        motorCard.classList.add("motor-card");
+
+                        motorCard.innerHTML = `
+                            <h3>Serial Number: ${motor["serial number"]}</h3>
+                            <p><strong>Date:</strong> ${motor["date"]}</p>
+                            <p><strong>Machine Model:</strong> ${motor["machine-model"]}</p>
+                            <p><strong>Surge Error:</strong> ${motor["surge error"]}</p>
+                            <p><strong>Voltage:</strong> ${motor["Voltage"] || "N/A"}</p>
+                            <p><strong>Tests:</strong></p>
+                            <ul>
+                                ${motor["tests"].map(test => `<li>${test}</li>`).join('')}
+                            </ul>
+                        `;
+
+                        container.appendChild(motorCard);
+                    });
+                })
+                .catch(error => {
+                    console.error("Error fetching motor data:", error);
+                });
+        }
+
+        // Function to go back to the machines view
+        function goBackToMachines() {
+            const container = document.getElementById("motor-cards-container");
+            const backButton = document.getElementById("back-button");
+
+            // Hide motor cards and back button, and show the machines card again
+            container.style.display = "none";
+            backButton.style.display = "none";
+            document.getElementById("machines-card").style.display = "block";
+        }
+    </script>
 </body>
 </html>

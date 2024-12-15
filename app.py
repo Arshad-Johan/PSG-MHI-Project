@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, url_for, request, flash, session
+from flask import Flask, render_template, redirect, url_for, request, flash, session, jsonify
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from pymongo import MongoClient
 from watchdog.observers import Observer
@@ -15,7 +15,6 @@ import random
 import logging
 from itsdangerous import URLSafeTimedSerializer
 from bson import ObjectId
-
 load_dotenv()
 
 app = Flask(__name__)
@@ -54,6 +53,8 @@ def load_user(user_id):
 
 @app.route("/", methods=["GET"])
 def home():
+    if current_user.is_authenticated:
+        return redirect(url_for("dashboard_view"))
     return render_template("home.html")
 
 @app.route("/login", methods=["GET", "POST"])
@@ -189,10 +190,13 @@ def verify_otp_view():
 
     return render_template("verify_otp.html")
 
+
 @app.route("/dashboard")
-@login_required
 def dashboard_view():
-    return render_template("dashboard.html")
+    # Fetch data from MongoDB
+    motor_data = list(data_collection.find())
+    # Pass data to the template
+    return render_template("dashboard.html", motor_data=motor_data)
 
 @app.route("/logout")
 @login_required
@@ -281,6 +285,27 @@ def monitor_file(file_path):
     except KeyboardInterrupt:
         observer.stop()
     observer.join()
+
+from flask import jsonify
+from bson import ObjectId
+
+# Convert ObjectId to string for JSON serialization
+def convert_objectid_to_str(data):
+    if isinstance(data, ObjectId):
+        return str(data)
+    elif isinstance(data, dict):
+        return {key: convert_objectid_to_str(value) for key, value in data.items()}
+    elif isinstance(data, list):
+        return [convert_objectid_to_str(item) for item in data]
+    return data
+
+@app.route("/machines_data", methods=["GET"])
+def machines_data():
+    motor_data = list(data_collection.find())
+    # Convert ObjectId to string before jsonify
+    motor_data = [convert_objectid_to_str(doc) for doc in motor_data]
+    return jsonify(motor_data)
+
 
 if __name__ == "__main__":
     file_path = Path("data.txt")
