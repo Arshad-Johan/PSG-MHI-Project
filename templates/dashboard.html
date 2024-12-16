@@ -7,28 +7,32 @@
     <title>Dashboard</title>
 </head>
 <body>
-    <!-- Navbar -->
-    <nav class="navbar">
-        <div class="navbar-container">
-            <a href="#" class="navbar-logo"></a>
-            <ul class="navbar-links">
-                <li><a href="{{ url_for('logout_view') }}">Logout</a></li>
-            </ul>
-        </div>
-    </nav>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <h2>PSG MHI Project</h2>
+        <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Profile</a></li>
+            <li><a href="#">Settings</a></li>
+            <li><a href="{{ url_for('logout_view') }}">Logout</a></li>
+        </ul>
+    </div>
 
-    <div class="container">
-        <!-- Machines Card -->
-        <div class="card" id="machines-card" onclick="showMotorCards()">
-            <h3>Jabbal's Machine</h3>
-            <p>Click to view all motors</p>
-        </div>
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="container">
+            <!-- Machines Card -->
+            <div class="card" id="machines-card" onclick="showMotorCards()">
+                <h3>Jabbal's Machine</h3>
+                <p>Click to view all motors</p>
+            </div>
 
-        <!-- Motor Data Cards -->
-        <div class="motor-cards-container" id="motor-cards-container" style="display: none;"></div>
-        
-        <!-- Button to go back to Machines -->
-        <button id="back-button" style="display: none;" onclick="goBackToMachines()">Back to Machines</button>
+            <!-- Motor Data Cards -->
+            <div class="motor-cards-container" id="motor-cards-container" style="display: none;"></div>
+            
+            <!-- Button to go back to Machines -->
+            <button id="back-button" style="display: none;" onclick="goBackToMachines()">Back to Machines</button>
+        </div>
     </div>
 
     <script>

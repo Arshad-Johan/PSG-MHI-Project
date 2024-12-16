@@ -1,69 +1,63 @@
+/* Reset some default styles */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
-
+html{
+    color: #575757;
+}
 body {
     font-family: 'Arial', sans-serif;
     background-color: #f4f4f9;
-    color: #333;
+    display: flex; /* Ensures the sidebar and main content are side by side */
 }
 
-.navbar {
-    background-color: #4CAF50;
-    padding: 10px 0;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-}
-
-.navbar-container {
-    width: 90%;
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-right: 1%;
-    padding-right: none;
-}
-
-.navbar-logo {
-    font-size: 1.8rem;
-    font-weight: bold;
+.sidebar {
+    background-color: #333;
     color: white;
-}
-
-.navbar-links {
-    display: flex;
-    gap: 20px;
-}
-
-.navbar-links li {
-    list-style: none;
-}
-
-.navbar-links a {
-    color: white;
-    font-size: 1.1rem;
-    padding: 10px 15px;
-    padding-right: none;
-    transition: background-color 0.3s ease;
-    text-decoration: none; 
-}
-
-.navbar-links a:hover {
-    background-color: #45a049;
-}
-.container {
-    padding: 20px;
-    width: 80%;
-    max-width: 1200px;
-    margin: 20px auto;
+    width: 250px;
+    height: 100vh;
+    position: fixed; /* Ensures the sidebar is fixed on the left */
     display: flex;
     flex-direction: column;
     align-items: center;
+    padding-top: 20px;
+}
+
+.sidebar h2 {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+}
+
+.sidebar ul {
+    list-style-type: none;
+    padding: 0;
+    width: 100%;
+}
+
+.sidebar ul li {
+    width: 100%;
+}
+
+.sidebar ul li a {
+    display: block;
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    font-size: 1.1rem;
+    border-bottom: 1px solid #444;
+    transition: background-color 0.3s ease;
+}
+
+.sidebar ul li a:hover {
+    background-color: #575757;
+}
+
+.main-content {
+    margin-left: 250px; /* Leaves space for the sidebar */
+    padding: 20px;
+    width: calc(100% - 250px); /* Takes the remaining space */
 }
 
 .card {
@@ -81,16 +75,6 @@ body {
 .card:hover {
     transform: scale(1.05);
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-}
-
-.card h3 {
-    font-size: 1.5rem;
-    color: #333;
-}
-
-.card p {
-    font-size: 1.1rem;
-    color: #777;
 }
 
 .motor-cards-container {
@@ -118,26 +102,6 @@ body {
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
 }
 
-.motor-card h3 {
-    font-size: 1.2rem;
-    color: #333;
-}
-
-.motor-card p {
-    font-size: 1rem;
-    color: #555;
-}
-
-.motor-card ul {
-    list-style-type: disc;
-    margin-left: 20px;
-}
-
-.motor-card li {
-    font-size: 0.9rem;
-    color: #666;
-}
-
 #back-button {
     background-color: #4CAF50;
     color: white;
@@ -153,15 +117,3 @@ body {
 #back-button:hover {
     background-color: #45a049;
 }
-
-.logout {
-    text-align: right;
-    margin: 20px;
-}
-
-.logout a {
-    color: #007bff;
-    font-weight: bold;
-}
-
-
