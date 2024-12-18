@@ -11,7 +11,7 @@
     <div class="sidebar">
         <h2>PSG MHI Project</h2>
         <ul>
-            <li><a href="#">Home</a></li>
+            <li><a href="#">Dashboard</a></li>
             <li><a href="#">Profile</a></li>
             <li><a href="#">Settings</a></li>
             <li><a href="{{ url_for('logout_view') }}">Logout</a></li>
@@ -20,18 +20,21 @@
 
     <!-- Main Content -->
     <div class="main-content">
+        <header class="main-header" id="heading">
+            <h1>Welcome to PSG MHI Dashboard</h1>
+        </header>
         <div class="container">
             <!-- Machines Card -->
             <div class="card" id="machines-card" onclick="showMotorCards()">
                 <h3>Jabbal's Machine</h3>
                 <p>Click to view all motors</p>
             </div>
-
-            <!-- Motor Data Cards -->
-            <div class="motor-cards-container" id="motor-cards-container" style="display: none;"></div>
             
             <!-- Button to go back to Machines -->
             <button id="back-button" style="display: none;" onclick="goBackToMachines()">Back to Machines</button>
+
+            <!-- Motor Data Cards -->
+            <div class="motor-cards-container" id="motor-cards-container" style="display: none;"></div>
         </div>
     </div>
 
@@ -43,16 +46,13 @@
                 .then(data => {
                     const container = document.getElementById("motor-cards-container");
                     const backButton = document.getElementById("back-button");
-
-                    // Show the motor cards container and the back button
+                    document.getElementById("heading").style.display = "none";
                     container.style.display = "flex";
                     backButton.style.display = "block";
-                    document.getElementById("machines-card").style.display = "none"; // Hide the machines card
+                    document.getElementById("machines-card").style.display = "none";
 
-                    // Clear any existing cards before adding new ones
                     container.innerHTML = '';
 
-                    // Iterate over the data and create cards for each motor
                     data.forEach(motor => {
                         const motorCard = document.createElement("div");
                         motorCard.classList.add("motor-card");
@@ -68,7 +68,6 @@
                                 ${motor["tests"].map(test => `<li>${test}</li>`).join('')}
                             </ul>
                         `;
-
                         container.appendChild(motorCard);
                     });
                 })
@@ -77,12 +76,10 @@
                 });
         }
 
-        // Function to go back to the machines view
         function goBackToMachines() {
             const container = document.getElementById("motor-cards-container");
             const backButton = document.getElementById("back-button");
-
-            // Hide motor cards and back button, and show the machines card again
+            document.getElementById("heading").style.display = "block";
             container.style.display = "none";
             backButton.style.display = "none";
             document.getElementById("machines-card").style.display = "block";

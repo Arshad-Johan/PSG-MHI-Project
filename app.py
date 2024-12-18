@@ -191,12 +191,7 @@ def verify_otp_view():
     return render_template("verify_otp.html")
 
 
-@app.route("/dashboard")
-def dashboard_view():
-    # Fetch data from MongoDB
-    motor_data = list(data_collection.find())
-    # Pass data to the template
-    return render_template("dashboard.html", motor_data=motor_data)
+
 
 @app.route("/logout")
 @login_required
@@ -299,13 +294,35 @@ def convert_objectid_to_str(data):
         return [convert_objectid_to_str(item) for item in data]
     return data
 
-@app.route("/machines_data", methods=["GET"])
-def machines_data():
+@app.route("/dashboard")
+@login_required
+def dashboard_view():
+    # Fetch data from MongoDB
     motor_data = list(data_collection.find())
-    # Convert ObjectId to string before jsonify
+    # Convert ObjectId to string for template rendering
     motor_data = [convert_objectid_to_str(doc) for doc in motor_data]
+    # Pass data to the dashboard template
+    return render_template("dashboard.html", motor_data=motor_data)
+
+@app.route("/machines_data", methods=["GET"])
+@login_required
+def machines_data():
+    # Fetch motor data from MongoDB
+    motor_data = list(data_collection.find())
+    # Convert ObjectId to string for JSON serialization
+    motor_data = [convert_objectid_to_str(doc) for doc in motor_data]
+    # Return motor data as JSON
     return jsonify(motor_data)
 
+def convert_objectid_to_str(data):
+    """Recursively convert ObjectId to string for dictionaries and lists."""
+    if isinstance(data, ObjectId):
+        return str(data)
+    elif isinstance(data, dict):
+        return {key: convert_objectid_to_str(value) for key, value in data.items()}
+    elif isinstance(data, list):
+        return [convert_objectid_to_str(item) for item in data]
+    return data
 
 if __name__ == "__main__":
     file_path = Path("data.txt")
