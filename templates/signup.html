@@ -1,5 +1,21 @@
-<form method="POST" action="/signup">
-    <input type="username" name="username" placeholder="PSG Tech Email" required>
-    <input type="password" name="password" placeholder="Password" required>
-    <button type="submit">Sign Up</button>
-</form>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='signup.css') }}">
+</head>
+<body>
+    <form class="form" method="POST" action="/signup"> <!-- Add action to the form -->
+        <span class="input-span">
+            <input type="username" name="username" placeholder="PSG Tech Email" required>
+        </span>
+        <span class="input-span">
+            <input type="password" name="password" placeholder="Password" required>
+        </span>
+        <button type="submit">Sign Up</button>
+    </form>
+    <button class="go-back" onclick="window.history.back();">Go Back</button> <!-- Go Back button -->
+</body>
+</html>
