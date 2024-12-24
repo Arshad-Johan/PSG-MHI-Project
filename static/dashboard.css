@@ -10,52 +10,50 @@ body {
     background-color: #f4f4f9;
     display: flex;
     color: #333;
+    display:block;
 }
 
-/* Sidebar */
-.sidebar {
-    width: 250px;
-    background-color: #2c3e50;
-    height: 100vh;
-    position: fixed;
+.button-container {
     display: flex;
-    flex-direction: column;
+    background-color: rgb(27, 133, 219);
+    width: 100%;
+    height: 40px;
     align-items: center;
-    padding-top: 20px;
-    color: #ecf0f1;
-}
+    justify-content:right;
+    gap:20px;
+    padding-right:2%;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px,
+      rgba(27, 133, 219, 0.5) 5px 10px 15px;
+  }
+  
+  .button {
+    outline: 0 !important;
+    border: 0 !important;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    transition: all ease-in-out 0.3s;
+    cursor: pointer;
+  }
+  
+  .button:hover {
+    transform: translateY(-3px);
+  }
+  
+  .icon {
+    font-size: 20px;
+  }
+  
 
-.sidebar h2 {
-    margin-bottom: 20px;
-}
-
-.sidebar ul {
-    list-style-type: none;
-    width: 100%;
-    padding: 0;
-}
-
-.sidebar ul li {
-    width: 100%;
-}
-
-.sidebar ul li a {
-    display: block;
-    padding: 15px 20px;
-    color: #ecf0f1;
-    text-decoration: none;
-    transition: background-color 0.3s ease;
-}
-
-.sidebar ul li a:hover {
-    background-color: #34495e;
-}
-
-/* Main Content */
 .main-content {
-    margin-left: 250px;
     padding: 20px;
-    width: calc(100% - 250px);
+    width: calc(100%);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -165,4 +163,46 @@ body {
 
 #back-button:hover {
     background-color: #34495e;
+}
+
+.dialog-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+}
+
+.dialog-box {
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    text-align: center;
+}
+
+.dialog-box h2 {
+    margin-bottom: 20px;
+}
+
+.dialog-box p {
+    margin-bottom: 20px;
+}
+
+.dialog-box button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background: #2c3e50;
+    color: #ecf0f1;
+    cursor: pointer;
+}
+
+.dialog-box button:hover {
+    background: #34495e;
 }

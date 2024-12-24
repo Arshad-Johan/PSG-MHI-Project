@@ -84,7 +84,6 @@ body {
 
 .form .submit:hover {
     background-color: var(--clr);
-    color: var(--bg-dark);
 }
 
 .span {

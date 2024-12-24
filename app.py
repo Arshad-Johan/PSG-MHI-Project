@@ -302,7 +302,7 @@ def dashboard_view():
     # Convert ObjectId to string for template rendering
     motor_data = [convert_objectid_to_str(doc) for doc in motor_data]
     # Pass data to the dashboard template
-    return render_template("dashboard.html", motor_data=motor_data)
+    return render_template("dashboard.html", motor_data=motor_data,username=current_user.username)
 
 @app.route("/machines_data", methods=["GET"])
 @login_required
