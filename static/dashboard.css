@@ -102,6 +102,7 @@ button .icon {
     border: 1px solid var(--secondary-color);
     border-radius: 50%;
     margin: 20px auto;
+    background-color: var(--header-text-color);
     width: fit-content;
 }
 

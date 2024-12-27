@@ -73,7 +73,7 @@ def login_view():
             return redirect(next_page or url_for("dashboard_view"))
         else:
             return redirect(url_for("login_view"))
-    return render_template("login.html")
+    return render_template("index.html")
 
 serializer = URLSafeTimedSerializer(app.secret_key)
 
