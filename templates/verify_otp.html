@@ -1,4 +1,12 @@
-<form method="POST" action="/verify-otp">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='verify_otp.css') }}">
+    <title>Verify OTP</title>
+</head>
+
+<form method="POST" action="/verify-otp" class="otp-form">
     <input type="text" name="otp" placeholder="Enter OTP" required>
     <button type="submit">Verify OTP</button>
 </form>

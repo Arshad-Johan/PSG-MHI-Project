@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, url_for, request, flash, session, jsonify
+from flask import Flask, render_template, redirect, url_for, request, session, jsonify
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from pymongo import MongoClient
 from watchdog.observers import Observer
@@ -89,12 +89,7 @@ def forgot_password():
             reset_url = url_for("reset_password", token=token, _external=True)
 
             # Send the reset link via email
-            if send_reset_email(username, reset_url):
-                flash("A password reset link has been sent to your email.", "info")
-            else:
-                flash("Failed to send reset email. Please try again.", "danger")
-        else:
-            flash("No account found with that email address.", "danger")
+            send_reset_email(username, reset_url)
     
     return render_template("forgot_password.html")
 
@@ -104,19 +99,15 @@ def reset_password(token):
     try:
         email = serializer.loads(token, salt="password-reset-salt", max_age=3600)  # Token expires in 1 hour
     except Exception:
-        flash("The reset link is invalid or has expired.", "danger")
         return redirect(url_for("forgot_password"))
     
     if request.method == "POST":
         new_password = request.form["password"]
         confirm_password = request.form["confirm_password"]
 
-        if new_password != confirm_password:
-            flash("Passwords do not match.", "danger")
-        else:
+        if new_password == confirm_password:
             hashed_password = generate_password_hash(new_password)
             users_collection.update_one({"username": email}, {"$set": {"password": hashed_password}})
-            flash("Your password has been reset. You can now log in.", "success")
             return redirect(url_for("login_view"))
 
     return render_template("reset_password.html", token=token)
@@ -135,11 +126,9 @@ def send_reset_email(email, reset_url):
                 }
             ]
         }
-        result = mailjet.send.create(data=data)
-        return result.status_code == 200
+        mailjet.send.create(data=data)
     except Exception as e:
         logging.error(f"Error sending reset email: {e}")
-        return False
 
 @app.route("/signup", methods=["GET", "POST"])
 def signup_view():
@@ -148,22 +137,16 @@ def signup_view():
         password = request.form["password"]
 
         if not re.match(r"^[a-zA-Z0-9._%+-]+@psgtech\.ac\.in$", username):
-            flash("Email must be a valid PSG Tech Email", "danger")
             return render_template("signup.html")
 
         if users_collection.find_one({"username": username}):
-            flash("Email already registered. Please log in.", "danger")
             return render_template("signup.html")
 
         otp = random.randint(100000, 999999)
         session.update({"otp": otp, "temp_email": username, "temp_password": password})
 
-        if send_otp(username, otp):
-            flash("An OTP has been sent to your email. Please verify to complete signup.", "info")
-            return redirect(url_for("verify_otp_view"))
-        else:
-            flash("Failed to send OTP. Please try again later.", "danger")
-            return render_template("signup.html")
+        send_otp(username, otp)
+        return redirect(url_for("verify_otp_view"))
 
     return render_template("signup.html")
 
@@ -181,14 +164,9 @@ def verify_otp_view():
             session.pop("temp_email", None)
             session.pop("temp_password", None)
 
-            flash("Account verified and created successfully. Please log in.", "success")
             return redirect(url_for("login_view"))
-        else:
-            flash("Invalid OTP. Please try again.", "danger")
 
     return render_template("verify_otp.html")
-
-
 
 
 @app.route("/logout")
@@ -210,11 +188,9 @@ def send_otp(email, otp):
                 }
             ]
         }
-        result = mailjet.send.create(data=data)
-        return result.status_code == 200
+        mailjet.send.create(data=data)
     except Exception as e:
         logging.error(f"Error sending email via Mailjet: {e}")
-        return False
 
 def parse_text_file(file_path):
     """Parse the given text file and return a list of dictionaries."""

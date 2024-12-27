@@ -121,11 +121,11 @@ button .icon {
     background: var(--dialog-background-color);
     border: 1px solid var(--border-color);
     border-radius: 8px;
-    padding: 20px;
-
-    margin: 15px;
+    padding: 60px; /* Further increased padding */
+    margin: 40px; /* Further increased margin */
     box-shadow: 0px 4px 6px var(--shadow-color);
-    width: 300px;
+    width: 600px; /* Further increased width */
+    height: 400px; /* Increased height */
     text-align: center;
     cursor: pointer;
     transition: transform 0.3s, box-shadow 0.3s;
