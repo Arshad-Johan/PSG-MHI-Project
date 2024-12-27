@@ -1,4 +1,26 @@
 /* Global Styles */
+:root {
+    --primary-color: #1abc9c;
+    --primary-dark-color: #16a085;
+    --secondary-color: #d23ea8;
+    --secondary-dark-color: #ab278c;
+    --text-color: #333;
+    --background-color: #f9f9f9;
+    --border-color: #dcdde1;
+    --shadow-color: rgba(0, 0, 0, 0.1);
+    --hover-shadow-color: rgba(0, 0, 0, 0.15);
+    --button-hover-shadow-color: rgba(0, 0, 0, 0.2);
+    --header-text-color: #ffffff;
+    --card-title-color: #2c3e50;
+    --card-text-color: #7f8c8d;
+    --dialog-background-color: #ffffff;
+    --dialog-shadow-color: rgba(0, 0, 0, 0.25);
+    --dialog-title-color: #2c3e50;
+    --dialog-button-color: #3498db;
+    --table-header-background-color: #1abc9c;
+    --table-border-color: #000000;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -7,25 +29,30 @@
 
 body {
     font-family: 'Arial', sans-serif;
-    display: flex;
-    color: #333;
-    display:block;
-    background-color: #ccc6c6;
+    color: var(--text-color);
+    background-image: url('/static/Background.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
 }
 
 .button-container {
     display: flex;
-    background-color: rgb(27, 133, 219);
+    background-color: var(--secondary-color);
     width: 100%;
     height: 40px;
     align-items: center;
-    justify-content:right;
+    position: -webkit-sticky; /* For Safari */
+    position: sticky;
+    top: 0; /* Stick to the top of the viewport */
+    z-index: 1000;
+    justify-content: right;
     border-radius: 10px;
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px,
-      rgba(27, 133, 219, 0.5) 5px 10px 15px;
-  }
-  
-  .button {
+    box-shadow: var(--shadow-color) 0px 5px 15px, var(--secondary-dark-color) 5px 10px 15px;
+}
+
+.button {
     outline: 0 !important;
     border: 0 !important;
     width: 40px;
@@ -35,18 +62,14 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #ea1212;
+    color: var(--secondary-color);
     transition: all ease-in-out 0.3s;
     cursor: pointer;
-  }
-  
-  
-  .icon {
+}
+
+.icon {
     font-size: 20px;
-  }
-  
-
-
+}
 
 button {
     background-color: transparent;
@@ -62,7 +85,6 @@ button {
     transition: background-color 0.3s;
 }
 
-
 button .icon {
     margin-right: 5px;
 }
@@ -73,23 +95,36 @@ button .icon {
 
 .main-header {
     text-align: center;
-    color: #2c3e50;
+    color: var(--table-border-color-color);
+    font-size: 1em;
+    font-weight: bold;
+    padding: 20px;
+    border-radius: 10px;
+    margin: 20px auto;
+    width: fit-content;
 }
 
 .container {
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    justify-content: center;
     margin-top: 20px;
-}
+    gap: 20px;
+    padding: 20px;
+    flex-wrap: wrap;
 
+}
 .card {
-    background: #ffffff;
-    border: 1px solid #dcdde1;
+    display: flex;
+    flex-direction: column; /* Adjust the direction as needed */
+    align-items: center; /* Center items horizontally */
+    justify-content: center; /* Center items vertically */
+    background: var(--dialog-background-color);
+    border: 1px solid var(--border-color);
     border-radius: 8px;
     padding: 20px;
+
     margin: 15px;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 4px 6px var(--shadow-color);
     width: 300px;
     text-align: center;
     cursor: pointer;
@@ -98,45 +133,45 @@ button .icon {
 
 .card:hover {
     transform: translateY(-5px);
-    box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.15);
+    box-shadow: 0px 6px 10px var(--hover-shadow-color);
 }
 
 .card h3 {
-    color: #2c3e50;
+    color: var(--card-title-color);
     margin-bottom: 10px;
 }
 
 .card p {
-    color: #7f8c8d;
+    color: var(--card-text-color);
 }
 
 .motor-card {
-    background: #ecf0f1;
-    border: 1px solid #bdc3c7;
+    background: var(--background-color);
+    border: 1px solid var(--border-color);
     border-radius: 8px;
+    cursor: pointer;
     padding: 15px;
     margin: 10px;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 4px 6px var(--shadow-color);
     width: 300px;
     transition: transform 0.3s, box-shadow 0.3s;
 }
 
 .motor-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.15);
+    box-shadow: 0px 6px 10px var(--hover-shadow-color);
 }
 
 .motor-card h3 {
-    color: #34495e;
+    color: var(--card-title-color);
     margin-bottom: 10px;
 }
 
 .motor-card p {
-    color: #7f8c8d;
+    color: var(--card-text-color);
 }
 
 .button {
-    background-color: #1abc9c;
+    background-color: var(--primary-color);
     border: none;
     border-radius: 5px;
     color: white;
@@ -147,7 +182,7 @@ button .icon {
 }
 
 .button:hover {
-    background-color: #16a085;
+    background-color: var(--primary-dark-color);
 }
 
 .button:active {
@@ -155,11 +190,25 @@ button .icon {
 }
 
 #back-button {
-    background-color: #e74c3c;
+    background-color: var(--secondary-color);
+    color: white;
+    padding: 10px 10px;
+    width:10%;
+    display: flex;
+    margin: auto;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.3s, transform 0.2s;
+    box-shadow: 0 4px 6px var(--shadow-color);
+    text-align: center;
 }
 
 #back-button:hover {
-    background-color: #c0392b;
+    background-color: var(--secondary-dark-color);
 }
 
 .dialog-overlay {
@@ -175,10 +224,10 @@ button .icon {
 }
 
 .dialog-box {
-    background: #fff;
+    background: var(--dialog-background-color);
     padding: 20px;
     border-radius: 10px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
+    box-shadow: 0px 4px 10px var(--dialog-shadow-color);
     text-align: center;
     width: 300px;
     align-items: center;
@@ -186,7 +235,7 @@ button .icon {
 }
 
 .dialog-box h4 {
-    color: #2c3e50;
+    color: var(--dialog-title-color);
     margin-bottom: 10px;
     align-items: center;
     justify-content: center;
@@ -194,7 +243,7 @@ button .icon {
 
 .dialog-box button {
     display: block;
-    background-color: #3498db;
+    background-color: var(--dialog-button-color);
     color: white;
     border: none;
     padding: 10px 15px;
@@ -204,8 +253,8 @@ button .icon {
     justify-content: center;
 }
 
-.buttondown{
-    background-color: #1abc9c;
+.buttondown {
+    background-color: var(--primary-color);
     border: none;
     border-radius: 5px;
     color: white;
@@ -218,7 +267,7 @@ button .icon {
 .motor-title {
     font-size: 1.4em;
     font-weight: bold;
-    color: #2c3e50;
+    color: var(--card-title-color);
     margin-bottom: 10px;
     text-align: center;
 }
@@ -239,10 +288,9 @@ button .icon {
     cursor: pointer;
 }
 
-
 .buttondown {
     display: inline-block;
-    background: linear-gradient(135deg, #1abc9c, #16a085);
+    background: linear-gradient(135deg, var(--primary-color), var(--primary-dark-color));
     color: #fff;
     font-size: 1em;
     font-weight: bold;
@@ -253,44 +301,36 @@ button .icon {
     cursor: pointer;
     transition: all 0.3s ease-in-out;
     text-align: center;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 4px 6px var(--shadow-color);
 }
 
 .buttondown:hover {
-    background: linear-gradient(135deg, #16a085, #1abc9c);
+    background: linear-gradient(135deg, var(--primary-dark-color), var(--primary-color));
     transform: scale(1.05);
-    box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.2);
+    box-shadow: 0px 6px 10px var(--button-hover-shadow-color);
 }
 
 .buttondown:active {
     transform: scale(0.95);
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+    box-shadow: 0px 2px 4px var(--button-hover-shadow-color);
 }
 
 .motor-card {
-    background: #ffffff;
-    border: 1px solid #dcdde1;
+    background: var(--dialog-background-color);
+    border: 2px solid var(--secondary-color); /* Increased border width */
     border-radius: 10px;
     padding: 20px;
     margin: 15px;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 4px 6px var(--shadow-color);
     width: 300px;
     text-align: center;
     transition: transform 0.3s, box-shadow 0.3s;
 }
 
 .motor-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.15);
+    box-shadow: 0px 6px 10px var(--hover-shadow-color);
 }
 
-.motor-card {
-    border: 1px solid #ddd;
-    padding: 15px;
-    margin-bottom: 20px;
-    border-radius: 5px;
-    background-color: #f9f9f9;
-}
 
 .motor-card table {
     width: 100%;
@@ -299,12 +339,25 @@ button .icon {
 }
 
 .motor-card th, .motor-card td {
-    border: 1px solid #000000;
+    border: 1px solid var(--table-border-color);
     padding: 8px;
     text-align: left;
 }
 
 .motor-card th {
-    background-color: #1abc9c;
+    background-color: var(--table-header-background-color);
     font-weight: bold;
+}
+
+.sub-cards-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    padding: 20px;
+    background-color: var(--primary-color);
+    border-radius: 10px;
+    box-shadow: 0 4px 8px var(--shadow-color);
+    margin: 20px auto;
+    max-width: 1200px;
 }

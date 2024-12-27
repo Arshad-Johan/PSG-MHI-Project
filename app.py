@@ -35,7 +35,6 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = "login_view"
 
-logging.basicConfig(level=logging.INFO)
 
 class User(UserMixin):
     def __init__(self, id, username, password):
@@ -73,8 +72,7 @@ def login_view():
             next_page = request.args.get("next")
             return redirect(next_page or url_for("dashboard_view"))
         else:
-            flash("Invalid username or password", "danger")
-    
+            return redirect(url_for("login_view"))
     return render_template("login.html")
 
 serializer = URLSafeTimedSerializer(app.secret_key)
@@ -283,7 +281,10 @@ def monitor_file(file_path):
 
 from flask import jsonify
 from bson import ObjectId
-
+@login_manager.unauthorized_handler
+def unauthorized_callback():
+    # Custom behavior for unauthorized access
+    return redirect(url_for('login_view'))
 # Convert ObjectId to string for JSON serialization
 def convert_objectid_to_str(data):
     if isinstance(data, ObjectId):
@@ -325,6 +326,8 @@ def convert_objectid_to_str(data):
     return data
 
 if __name__ == "__main__":
+
+
     file_path = Path("data.txt")
     threading.Thread(target=monitor_file, args=(file_path,), daemon=True).start()
     app.run(port=5001, debug=True)

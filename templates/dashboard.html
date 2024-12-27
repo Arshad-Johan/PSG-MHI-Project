@@ -59,15 +59,78 @@
             <h1>Welcome to PSG MHI Dashboard</h1>
         </header>
         <div class="container">
-            <div class="card" id="machines-card" onclick="showMotorCards()">
-                <h3>Jabbal's Machine</h3>
-                <p>Click to view all motors</p>
+            <!-- Main Assembly Cards -->
+            <div class="card" id="armature-card" onclick="showArmatureCards()">
+                <h3>Armature Winding Assembly</h3>
+                <p>Click to view stages</p>
             </div>
-            
-            <button id="back-button" style="display: none;" onclick="goBackToMachines()">Back to Machines</button>
-
+        
+            <div class="card" id="stator-card" onclick="showStatorCards()">
+                <h3>Under Stator Assembly</h3>
+                <p>Click to view stages</p>
+            </div>
+        
+        
+            <!-- Armature Cards -->
+            <div class="sub-cards-container" id="armature-cards-container" style="display: none;">
+                <div class="motor-card">
+                    <h3 class="motor-title">Combo Press</h3>
+                    <p class="motor-detail">Hydro-pneumatic machine assembling armature components like the core, shaft, and commutator.</p>
+                </div>
+                <div class="motor-card">
+                    <h3 class="motor-title">Slot Insulator Inserter</h3>
+                    <p class="motor-detail">Inserts insulating material between the core and copper wiring to withstand high temperatures.</p>
+                </div>
+                <div class="motor-card">
+                    <h3 class="motor-title">Armature Winding Machine</h3>
+                    <p class="motor-detail">Performs copper winding operations in 25 seconds per armature.</p>
+                </div>
+                <div class="motor-card">
+                    <h3 class="motor-title">Commutator Hot Stacking</h3>
+                    <p class="motor-detail">Spot welds copper wiring to ensure strong connections to the commutator.</p>
+                </div>
+                <div class="motor-card">
+                    <h3 class="motor-title">Wedge Inserter</h3>
+                    <p class="motor-detail">Inserts additional insulation to secure the core's copper winding gaps.</p>
+                </div>
+                <div class="motor-card">
+                    <h3 class="motor-title">Varnishing</h3>
+                    <p class="motor-detail">Applies trickle varnishing to secure the winding firmly.</p>
+                </div>
+                <div class="motor-card">
+                    <h3 class="motor-title">Commutator Turning</h3>
+                    <p class="motor-detail">Smoothens the commutator surface to achieve optimal roughness factor.</p>
+                </div>
+                <div class="motor-card" id="machines-card" onclick="showMotorCards()">
+                    <h3 class="motor-title">Jabbal's Automatic Armature Analyzer</h3>
+                    <p class="motor-detail">Conducts resistance and surge testing, ensuring component integrity.</p>
+                </div>
+                <div class="motor-card">
+                    <h3 class="motor-title">Balancing</h3>
+                    <p class="motor-detail">Checks and adjusts the balance of components by shedding excess weight.</p>
+                </div>
+            </div>
             <div class="motor-cards-container" id="motor-cards-container" style="display: none;"></div>
+
+            <!-- Stator Cards -->
+            <div class="sub-cards-container" id="stator-cards-container" style="display: none;">
+                <div class="motor-card">
+                    <h3 class="motor-title">Winding Machine</h3>
+                    <p class="motor-detail">Semi-automated machine for aluminum wire winding, ensuring insulation.</p>
+                </div>
+                <div class="motor-card">
+                    <h3 class="motor-title">Crimping Machine</h3>
+                    <p class="motor-detail">Splices wire ends for direct copper-aluminum connections.</p>
+                </div>
+                <div class="motor-card">
+                    <h3 class="motor-title">Jabbal's Surge Testing</h3>
+                    <p class="motor-detail">Compares component readings to ensure manufacturing accuracy.</p>
+                </div>
+            </div>
         </div>
+        <div id="back-button" style="display: none;" onclick="goBackToMain()">Back to Main</div>
+
+        
     </div>
 
     <script>
@@ -78,9 +141,14 @@
                     const container = document.getElementById("motor-cards-container");
                     const backButton = document.getElementById("back-button");
                     document.getElementById("heading").style.display = "none";
-                    container.style.display = "flex";
-                    backButton.style.display = "block";
+                    document.getElementById("armature-card").style.display = "none";
+                    document.getElementById("stator-card").style.display = "none";
+                    document.getElementById("armature-cards-container").style.display = "none";
+                    document.getElementById("stator-cards-container").style.display = "none";
                     document.getElementById("machines-card").style.display = "none";
+
+                    container.style.display = "flex";
+                    backButton.style.display = "flex";
 
                     container.innerHTML = '';
 
@@ -150,6 +218,37 @@
         function closeDialog() {
             document.getElementById('dialogOverlay').style.display = 'none';
         }
+        
+        function showArmatureCards() {
+            document.getElementById("machines-card").style.display = "block";
+
+            document.getElementById("armature-card").style.display = "none";
+            document.getElementById("stator-card").style.display = "none";
+            document.getElementById("armature-cards-container").style.display = "flex";
+            document.getElementById("back-button").style.display = "block";
+        }
+        
+        function showStatorCards() {
+            document.getElementById("armature-card").style.display = "none";
+            document.getElementById("stator-card").style.display = "none";
+            document.getElementById("stator-cards-container").style.display = "flex";
+            document.getElementById("back-button").style.display = "block";
+        }
+        
+        function goBackToMain() {
+            document.getElementById("heading").style.display = "block";
+
+            document.getElementById("armature-card").style.display = "block";
+            document.getElementById("stator-card").style.display = "block";
+            document.getElementById("armature-cards-container").style.display = "none";
+            document.getElementById("stator-cards-container").style.display = "none";
+            document.getElementById("back-button").style.display = "none";
+            document.getElementById("motor-cards-container").style.display = "none";
+
+        }
+        
+        
     </script>
 </body>
 </html>
+s
