@@ -94,11 +94,13 @@ button .icon {
 
 .main-header {
     text-align: center;
-    color: var(--table-border-color-color);
+    color: var(--text-color);
     font-size: 1em;
     font-weight: bold;
     padding: 20px;
     border-radius: 10px;
+    border: 1px solid var(--secondary-color);
+    border-radius: 50%;
     margin: 20px auto;
     width: fit-content;
 }
