@@ -1,37 +1,37 @@
 :root{
-    --bg-light: #efefef; /* Light text or element background color */
-    --bg-dark: #707070; /* Dark text or element background color */
-    --clr: #2c9558; /* Primary accent color */
-    --clr-alpha: rgba(156, 156, 156, 0.4); /* Semi-transparent background color */
-    --container-bg: #f0f8ff; /* Catchy container background color */
-    --border-color: #58bc82; /* Cool border color */
-    --page-bg: #85d8b4; /* Page background color */
+    --bg-light: #efefef; 
+    --bg-dark: #707070;
+    --clr: #2c9558;
+    --clr-alpha: rgba(156, 156, 156, 0.4);
+    --container-bg: #f0f8ff; 
+    --border-color: #58bc82; 
+    --page-bg: #85d8b4; 
 }
 .otp-form {
 
 
     display: flex;
     flex-direction: column;
-    align-items: center; /* Center items horizontally */
-    justify-content: center; /* Center items vertically */
+    align-items: center;
+    justify-content: center; 
     gap: 1rem;
     width: 100%;
     max-width: 300px;
-    margin: auto; /* Center the form within the parent */
-    padding: 2rem; /* Add padding for spacing */
-    background-color: var(--container-bg); /* Set form background color */
-    border: 2px solid var(--border-color); /* Add border */
-    border-radius: 1rem; /* Rounded corners for the container */
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Add shadow for depth */
+    margin: auto;
+    padding: 2rem;
+    background-color: var(--container-bg); 
+    border: 2px solid var(--border-color); 
+    border-radius: 1rem; 
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
 body {
     display: flex;
-    align-items: center; /* Center items vertically */
-    justify-content: center; /* Center items horizontally */
-    height: 100vh; /* Full viewport height */
-    margin: 0; /* Remove default margin */
-    background-color: var(--page-bg); /* Set a background color for the page */
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0; 
+    background-color: var(--page-bg); 
 }
 
 .otp-form input[type="text"] {
@@ -39,30 +39,30 @@ body {
     padding: 1rem 0.75rem;
     width: 100%;
     border: none;
-    background-color: var(--clr-alpha); /* Set input field background color */
-    outline: 2px solid var(--bg-dark); /* Border for input */
-    font-family: Arial, sans-serif; /* Font family for input text */
-    font-size: 1rem; /* Font size */
-    color: var(--bg-dark); /* Input text color */
+    background-color: var(--clr-alpha); 
+    outline: 2px solid var(--bg-dark); 
+    font-family: Arial, sans-serif; 
+    font-size: 1rem; 
+    color: var(--bg-dark);
 }
 
 .otp-form input[type="text"]:focus {
-    outline: 2px solid var(--clr); /* Highlight color on focus */
+    outline: 2px solid var(--clr); 
 }
 
 .otp-form button {
     padding: 1rem 0.75rem;
     width: 100%;
     border-radius: 0.5rem;
-    background-color: var(--bg-dark); /* Button background color */
-    color: var(--bg-light); /* Button text color */
+    background-color: var(--bg-dark); 
+    color: var(--bg-light);
     border: none;
     cursor: pointer;
-    transition: background-color 300ms; /* Smooth transition effect */
+    transition: background-color 300ms;
     font-size: 1rem;
     font-weight: bold;
 }
 
 .otp-form button:hover {
-    background-color: var(--clr); /* Change button color on hover */
+    background-color: var(--clr);
 }

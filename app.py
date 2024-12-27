@@ -84,11 +84,9 @@ def forgot_password():
         user_data = users_collection.find_one({"username": username})
         
         if user_data:
-            # Generate reset token
             token = serializer.dumps(username, salt="password-reset-salt")
             reset_url = url_for("reset_password", token=token, _external=True)
 
-            # Send the reset link via email
             send_reset_email(username, reset_url)
     
     return render_template("forgot_password.html")
@@ -97,7 +95,7 @@ def forgot_password():
 @app.route("/reset-password/<token>", methods=["GET", "POST"])
 def reset_password(token):
     try:
-        email = serializer.loads(token, salt="password-reset-salt", max_age=3600)  # Token expires in 1 hour
+        email = serializer.loads(token, salt="password-reset-salt", max_age=3600) 
     except Exception:
         return redirect(url_for("forgot_password"))
     
@@ -259,9 +257,7 @@ from flask import jsonify
 from bson import ObjectId
 @login_manager.unauthorized_handler
 def unauthorized_callback():
-    # Custom behavior for unauthorized access
     return redirect(url_for('login_view'))
-# Convert ObjectId to string for JSON serialization
 def convert_objectid_to_str(data):
     if isinstance(data, ObjectId):
         return str(data)
@@ -274,21 +270,15 @@ def convert_objectid_to_str(data):
 @app.route("/dashboard")
 @login_required
 def dashboard_view():
-    # Fetch data from MongoDB
     motor_data = list(data_collection.find())
-    # Convert ObjectId to string for template rendering
     motor_data = [convert_objectid_to_str(doc) for doc in motor_data]
-    # Pass data to the dashboard template
     return render_template("dashboard.html", motor_data=motor_data,username=current_user.username)
 
 @app.route("/machines_data", methods=["GET"])
 @login_required
 def machines_data():
-    # Fetch motor data from MongoDB
     motor_data = list(data_collection.find())
-    # Convert ObjectId to string for JSON serialization
     motor_data = [convert_objectid_to_str(doc) for doc in motor_data]
-    # Return motor data as JSON
     return jsonify(motor_data)
 
 def convert_objectid_to_str(data):
