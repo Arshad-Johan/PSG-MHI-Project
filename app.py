@@ -296,4 +296,4 @@ if __name__ == "__main__":
 
     file_path = Path("data.txt")
     threading.Thread(target=monitor_file, args=(file_path,), daemon=True).start()
-    app.run(port=5001, debug=True)
+    app.run( debug=True)
