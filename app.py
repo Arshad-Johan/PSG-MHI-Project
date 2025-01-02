@@ -134,7 +134,7 @@ def signup_view():
         username = request.form["username"]
         password = request.form["password"]
 
-        if not re.match(r"^[a-zA-Z0-9._%+-]+@psgtech\.ac\.in$", username):
+        if not re.match(r"^[a-zA-Z0-9._%+-]+@(psgtech\.ac\.in|navtat\.com)$", username):
             return render_template("signup.html")
 
         if users_collection.find_one({"username": username}):
@@ -190,6 +190,8 @@ def send_otp(email, otp):
     except Exception as e:
         logging.error(f"Error sending email via Mailjet: {e}")
 
+
+
 def parse_text_file(file_path):
     """Parse the given text file and return a list of dictionaries."""
     with open(file_path, "r") as file:
@@ -203,19 +205,42 @@ def parse_text_file(file_path):
             "date": values[1],
             "surge error": values[2],
             "machine-model": values[3],
+            "user": values[5],
             "tests": []
         }
+
         current_test = []
-        for value in values[4:]:
+        additional_keys = {"M.Ohm": None, "V": None, "Ohms": [], "kV": None}
+
+        for i, value in enumerate(values[6:]):
             if value.upper() == "N/A":
                 continue
-            current_test.append(value)
-            if value.lower() in ["pass", "fail"]:
-                data_dict["tests"].append(" ".join(current_test))
-                current_test = []
+
+            # Check for additional keys and assign preceding value
+            if "M.Ohm" in value:
+                additional_keys["M.Ohm"] = values[6 + i - 1] + " " + value
+            elif "/" in value and "V" in value:
+                additional_keys["V"] = values[6 + i - 1] + " " + value
+            elif "kV" in value:
+                additional_keys["KV"] = values[6 + i - 1] + " " + value
+            elif "Ohms" in value:
+                additional_keys["Ohms"].append(values[6 + i - 1] + " " + value)
+            else:
+                # Handle pass/fail as delimiters
+                current_test.append(value)
+                if value.lower() in ["pass", "fail"]:
+                    data_dict["tests"].append(" ".join(current_test))
+                    current_test = []
+
+        # Add any remaining test data
         if current_test:
             data_dict["tests"].append(" ".join(current_test))
+
+        # Add additional keys to the dictionary
+        data_dict.update({key: additional_keys[key] for key in additional_keys})
+        
         data_list.append(data_dict)
+
     return data_list
 
 def update_database(file_path):
