@@ -80,9 +80,10 @@
                     <h3 class="motor-title">Slot Insulator Inserter</h3>
                     <p class="motor-detail">Inserts insulating material between the core and copper wiring to withstand high temperatures.</p>
                 </div>
-                <div class="motor-card">
+                <div class="motor-card" onclick="window.location.href='{{ url_for('armature_winding_data') }}'" style="cursor: pointer; position: relative;">
                     <h3 class="motor-title">Armature Winding Machine</h3>
                     <p class="motor-detail">Performs copper winding operations in 25 seconds per armature.</p>
+                    <div style="position: absolute; top: 10px; right: 10px; background: #27ae60; color: white; padding: 4px 8px; border-radius: 4px; font-size: 0.8em;">View Data</div>
                 </div>
                 <div class="motor-card">
                     <h3 class="motor-title">Commutator Hot Stacking</h3>
@@ -91,10 +92,6 @@
                 <div class="motor-card">
                     <h3 class="motor-title">Wedge Inserter</h3>
                     <p class="motor-detail">Inserts additional insulation to secure the core's copper winding gaps.</p>
-                </div>
-                <div class="motor-card">
-                    <h3 class="motor-title">Varnishing</h3>
-                    <p class="motor-detail">Applies trickle varnishing to secure the winding firmly.</p>
                 </div>
                 <div class="motor-card">
                     <h3 class="motor-title">Commutator Turning</h3>

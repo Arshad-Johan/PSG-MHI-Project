@@ -361,3 +361,20 @@ button .icon {
     margin: 20px auto;
     max-width: 1200px;
 }
+
+/* Enhanced styling for clickable motor cards */
+.motor-card[onclick] {
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.motor-card[onclick]:hover {
+    background: linear-gradient(135deg, var(--dialog-background-color), var(--primary-color));
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0px 8px 15px var(--hover-shadow-color);
+}
+
+/* Make pagination button text black */
+.pagination button {
+    color: #222 !important;
+}

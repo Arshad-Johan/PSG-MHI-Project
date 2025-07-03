@@ -11,8 +11,11 @@ login_manager.init_app(app)
 login_manager.login_view = "login_view"
 
 client = MongoClient(app.config["MONGO_URI"])
+
 db = client["MACHINESDATA"]
 users_collection = db["Users"]
 data_collection = db["JabbalsMachine"]
+
+
 
 from app import routes

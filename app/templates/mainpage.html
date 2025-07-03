@@ -1,24 +1,67 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Middle Page</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{{ url_for('static', filename='mainpage.css') }}">
+  <meta charset="UTF-8">
+  <title>Smart Factory Landing Page</title>
+  <!-- Include Google Fonts if desired -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
+    rel="stylesheet"
+  >
+  <!-- Link to your CSS file -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='mainpage.css') }}">
 </head>
 <body>
+  <!-- Top Navigation -->
+  <header class="navbar">
+    <div class="logo">PSG - MHI Project</div>
     <nav>
-        <ul>
-            <li><a href="{{ url_for('mainpage') }}">Home</a></li>
-            <li><a href="{{ url_for('dashboard_view') }}">Dashboard</a></li>
-            <li><a href="{{ url_for('logout_view') }}">Logout</a></li>
-        </ul>
+      <ul class="nav-links">
+        <!-- Keep only these three items -->
+        <li><a href="{{ url_for('dashboard_view') }}">Dashboard</a></li>
+        <li><a href="#">Manage</a></li>
+        <li><a href="{{ url_for('logout_view') }}">Logout</a></li>
+      </ul>
     </nav>
-    <main>
-        <h1>Welcome to the Middle Page</h1>
-        <p>This is the middle page after login. You can navigate to the dashboard from here.</p>
-        <a href="{{ url_for('dashboard_view') }}" class="button">Go to Dashboard</a>
-    </main>
+  </header>
+  
+
+  <!-- Hero / Landing Section -->
+  <section class="hero-section">
+    <!-- Optional: Add a background image in CSS or place an <img> below -->
+    <!-- <img src="{{ url_for('static', filename='factory_bg.jpg') }}" alt="Factory Background" class="hero-image" /> -->
+    <div class="hero-text">
+      <h1>MONITOR, MAINTAIN AND MANAGE</h1>
+      <p>
+        Optimize your industrial processes with our cutting-edge IoT solution.
+        Monitor, manage, and maintain your machinery seamlessly through an
+        intuitive, user-friendly interface. Our enterprise-level platform
+        ensures real-time monitoring, advanced analytics, and integrated
+        controls for optimized operational efficiency and valuable insights
+        into performance.
+      </p>
+      <a href="{{ url_for('dashboard_view') }}" class="cta-button">Go to Dashboard</a>
+    </div>
+  </section>
+
+  <!-- Features / Highlights Section -->
+  <section class="features-section">
+    <div class="features-list">
+      <h2>Key Features</h2>
+      <ul>
+        <li>Customizable Dashboard Tools</li>
+        <li>Real-time Data Analysis</li>
+        <li>Condition-based Monitoring</li>
+        <li>Inventory Management</li>
+        <li>Remote Access</li>
+        <li>Intelligent Solutions – Quality Check</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Footer (optional) -->
+  <footer class="footer">
+    <p>© 2025 PSG-MHI Project. All rights reserved.</p>
+  </footer>
 </body>
 </html>

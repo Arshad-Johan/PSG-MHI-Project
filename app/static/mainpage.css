@@ -1,90 +1,178 @@
-/* General body styling */
-body {
-    font-family: 'Roboto', sans-serif; /* Modern font */
+/* =========================
+   1. RESET / GLOBAL STYLES
+   ========================= */
+   * {
     margin: 0;
     padding: 0;
-    background-color: #f9f9f9; /* Lighter background for a clean look */
-    color: #333; /* Dark text color for better readability */
-    line-height: 1.6; /* Improved line height for better readability */
-}
-
-/* Navigation bar styling */
-nav {
-    background-color: #282c34; /* Darker background for the navbar */
-    color: white;
-    padding: 10px 0;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
-}
-
-nav ul {
-    list-style-type: none;
-    text-align: center;
-    margin: 0;
-    padding: 0;
-}
-
-nav ul li {
-    display: inline;
-    margin: 0 15px;
-}
-
-nav ul li a {
-    color: white;
-    text-decoration: none;
-    font-size: 18px;
-    transition: color 0.3s ease; /* Smooth color transition on hover */
-}
-
-nav ul li a:hover {
-    color: #ff6347; /* Highlight color on hover */
-}
-
-/* Main content styling */
-main {
-    text-align: center;
-    padding: 20px;
-    max-width: 800px; /* Limit max-width for better readability */
-    margin: 0 auto; /* Center the main content */
-    background-color: white; /* White background for the main content */
-    border-radius: 8px; /* Rounded corners for a modern look */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
-    margin-top: 20px; /* Add some space at the top */
-}
-
-h1 {
+    box-sizing: border-box;
+  }
+  
+  /* 
+     If you want the entire page background to be an image,
+     uncomment the line below and remove the hero-section 
+     background if you only want one background. 
+  */
+  
+  body {
+    font-family: 'Roboto', sans-serif;
     color: #333;
-    font-size: 2.5em; /* Larger font size for the heading */
-    margin-bottom: 0.5em; /* Reduced margin for better spacing */
-}
-
-p {
-    color: #666;
-    font-size: 1.2em; /* Slightly larger font size for the paragraph */
-    margin-bottom: 1em; /* Improved margin for better spacing */
-}
-
-/* Utility classes */
-.text-center {
-    text-align: center;
-}
-
-.mb-4 {
-    margin-bottom: 1.5rem;
-}
-
-/* Button styling */
-button, a.button {
-    display: inline-block;
-    background-color: #282c34;
-    color: white;
-    padding: 10px 20px;
+    background: url("{{ url_for('static', filename='image.png') }}") center/cover no-repeat;
+  }
+  
+  
+  /* =========================
+     2. NAVBAR
+     ========================= */
+  .navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #2d2f33; /* Dark background */
+    padding: 0.75rem 2rem;
+  }
+  
+  .logo {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #fff;
+  }
+  
+  .nav-links {
+    list-style: none;
+    display: flex;
+  }
+  
+  .nav-links li {
+    margin-left: 1rem;
+  }
+  
+  .nav-links a {
+    color: #fff;
     text-decoration: none;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-button:hover, a.button:hover {
+    font-size: 1rem;
+    transition: color 0.3s;
+  }
+  
+  .nav-links a:hover {
+    color: #ff6347; /* Hover color */
+  }
+  
+  /* =========================
+     3. HERO SECTION
+     ========================= */
+  .hero-section {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 60vh;  /* Adjust to control hero height */
+    padding: 4rem 2rem;
+    text-align: center;
+    color: #fff;       /* White text for contrast */
+  
+    /* Correct reference to your static folder for the background image */
+    background: url("{{ url_for('static', filename='image.png') }}") center/cover no-repeat;
+    overflow: hidden;  /* Helps ensure overlay covers entire section */
+  }
+  
+  /* Dark overlay for better text visibility */
+  .hero-section::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.4); /* Semi-transparent black overlay */
+    z-index: 0;
+  }
+  
+  /* Hero text is placed above the overlay */
+  .hero-text {
+    position: relative;
+    z-index: 1;
+    max-width: 700px;
+    margin: 0 auto;
+  }
+  
+  .hero-text h1 {
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    /* Optional text-shadow for more contrast:
+       text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+    */
+  }
+  
+  .hero-text p {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+  }
+  
+  /* Call-to-action button */
+  .cta-button {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
     background-color: #ff6347;
-}
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+  }
+  
+  .cta-button:hover {
+    background-color: #ff826b;
+  }
+  
+  /* =========================
+     4. FEATURES SECTION
+     ========================= */
+  .features-section {
+    background-color: #fff;
+    padding: 3rem 2rem;
+    text-align: center;
+  }
+  
+  .features-list {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  
+  .features-list h2 {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    color: #333;
+  }
+  
+  .features-list ul {
+    list-style: none;
+    text-align: left;
+    margin-top: 1rem;
+  }
+  
+  .features-list li {
+    font-size: 1.1rem;
+    margin-bottom: 0.75rem;
+    padding-left: 1.5rem;
+    position: relative;
+  }
+  
+  /* Custom bullet styling for features */
+  .features-list li::before {
+    content: "•";
+    position: absolute;
+    left: 0;
+    color: #ff6347;
+    font-size: 1.5rem;
+    line-height: 1;
+  }
+  
+  /* =========================
+     5. FOOTER
+     ========================= */
+  .footer {
+    background-color: #2d2f33;
+    color: #fff;
+    text-align: center;
+    padding: 1rem 0;
+  }
+  
