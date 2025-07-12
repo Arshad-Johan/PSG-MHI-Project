@@ -206,3 +206,9 @@ def admin_required(f):
 @admin_required
 def admin_panel():
     return render_template("admin_panel.html")
+
+@app.route("/api/receive_machine_data", methods=["POST"])
+def receive_machine_data():
+    data = request.json
+    data_collection.insert_one(data)
+    return jsonify({"status": "success"}), 200
